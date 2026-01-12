@@ -1,3 +1,14 @@
+## README
+Steps:
+1. Download all this code
+2. create build directory (mkdir build/)
+3. change to build directory (cd build/)
+4. and use "cmake .."
+5. then create executable with "make"
+6. and run it with "./exampleB1"
+7. or use "./exampleB1 muonrun.mac" to have him run 1000 events without the visual manager (this number can be changed in the macros/muonrun.mac file)
+8. This now creates a output0.root file that can be analysed with root via "root output0.root" and then "new TBrowser" to show histogramms
+
 -------------------------------------------------------------------
 
      =========================================================
