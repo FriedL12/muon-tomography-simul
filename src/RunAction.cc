@@ -61,21 +61,43 @@ RunAction::RunAction()
   new G4UnitDefinition("picogray", "picoGy", "Dose", picogray);
 
   // Register accumulable to the accumulable manager
-  G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
-  accumulableManager->RegisterAccumulable(fEdep);
-  accumulableManager->RegisterAccumulable(fEdep2);
+  //G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
+  //accumulableManager->RegisterAccumulable(fEdep);
+  //accumulableManager->RegisterAccumulable(fEdep2);
+  
+  G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
+  
+  analysisManager->CreateH1("Edep", "Energy deposit", 100, 0., 12 * GeV);
+  
+  analysisManager->CreateNtuple("Muons", "Muons");
+  analysisManager->CreateNtupleIColumn("iEvent");
+  analysisManager->CreateNtupleDColumn("fX");
+  analysisManager->CreateNtupleDColumn("fY");
+  analysisManager->CreateNtupleDColumn("fZ");
+  analysisManager->CreateNtupleDColumn("fGlobalTime");
+  //analysisManager->CreateNtupleDColumn("fEnergy");
+  analysisManager->FinishNtuple(0);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void RunAction::BeginOfRunAction(const G4Run*)
+void RunAction::BeginOfRunAction(const G4Run *run)
 {
   // inform the runManager to save random number seed
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
 
   // reset accumulables to their initial values
-  G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
-  accumulableManager->Reset();
+  //G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
+  //accumulableManager->Reset();
+  
+  G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
+  
+  G4int runID = run->GetRunID();
+  
+  std::stringstream strRunID;
+  strRunID << runID;
+  
+  analysisManager->OpenFile("output" + strRunID.str() + ".root");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -109,6 +131,16 @@ void RunAction::EndOfRunAction(const G4Run* run)
   // Run conditions
   //  note: There is no primary generator action object for "master"
   //        run manager for multi-threaded mode.
+  G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
+  
+  analysisManager->Write();
+  
+  analysisManager->CloseFile();
+  
+  G4int runID = run->GetRunID();
+  
+  G4cout << "Finishing run " << runID << G4endl;
+  
   const auto generatorAction = static_cast<const PrimaryGeneratorAction*>(
     G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
   G4String runCondition;

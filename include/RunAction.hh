@@ -35,6 +35,12 @@
 #include "G4Accumulable.hh"
 #include "globals.hh"
 
+#include "G4AnalysisManager.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4UnitsTable.hh"
+
+
+
 class G4Run;
 
 namespace B1
