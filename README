@@ -1,6 +1,6 @@
 ## README
 Steps:
-1. Download all this code
+1. Download all this code (green button in the top right "code") then download zip at the bottom
 2. create build directory (mkdir build/)
 3. change to build directory (cd build/)
 4. and use "cmake .."
