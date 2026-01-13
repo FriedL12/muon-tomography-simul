@@ -50,6 +50,18 @@ void EventAction::BeginOfEventAction(const G4Event*)
 void EventAction::EndOfEventAction(const G4Event*)
 {
   // accumulate statistics in run action
+  G4double energyLoss = fEnergyIn - fEnergyOut;
+
+  // Only print if the muon actually entered the wall (energyIn > 0)
+  if (fEnergyIn > 0.) {
+      //G4cout << "---> End of Event" << G4endl;
+      G4cout << "Muon Energy Loss: " << G4BestUnit(energyLoss, "Energy") << G4endl;
+  }
+  
+  // Reset variables for the next event!
+  fEnergyIn = 0.;
+  fEnergyOut = 0.;
+  
   fRunAction->AddEdep(fEdep);
 }
 

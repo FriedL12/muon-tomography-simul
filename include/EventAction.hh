@@ -52,10 +52,17 @@ class EventAction : public G4UserEventAction
     void EndOfEventAction(const G4Event* event) override;
 
     void AddEdep(G4double edep) { fEdep += edep; }
+    
+    void SetEnergyIn(G4double e)  { fEnergyIn = e; }
+    void SetEnergyOut(G4double e) { fEnergyOut = e; }
+    G4double GetEnergyIn()        { return fEnergyIn; }
 
   private:
     RunAction* fRunAction = nullptr;
     G4double fEdep = 0.;
+
+    G4double fEnergyIn = 0.;
+    G4double fEnergyOut = 0.;
 };
 
 }  // namespace B1

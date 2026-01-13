@@ -36,6 +36,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4RunManager.hh"
 #include "G4Step.hh"
+#include "G4AnalysisManager.hh"
 
 namespace B1
 {
@@ -54,16 +55,49 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   //  fScoringVolume = detConstruction->GetScoringVolume();
   //}
 
+  G4Track* track = step->GetTrack();
+    
+    // 1. Filter for Muons only
+    if (track->GetDefinition()->GetParticleName() != "mu+") return;
+
+    G4StepPoint* prePoint  = step->GetPreStepPoint();
+    G4StepPoint* postPoint = step->GetPostStepPoint();
+    G4VPhysicalVolume* volume = prePoint->GetPhysicalVolume();
+
+    // 2. Check if we are in the Concrete Wall
+    if (volume && volume->GetName() == "ConcreteWall") {
+        
+        // A. Entry Point: The first step into the volume
+        if (prePoint->GetStepStatus() == fGeomBoundary) {
+            G4double eKinIn = prePoint->GetKineticEnergy();
+            fEventAction->SetEnergyIn(eKinIn); 
+        }
+
+        // B. Exit Point: Leaving the volume or stopping inside
+        if (postPoint->GetStepStatus() == fGeomBoundary || track->GetTrackStatus() == fStopAndKill) {
+            G4double eKinOut = postPoint->GetKineticEnergy();
+            fEventAction->SetEnergyOut(eKinOut);
+            
+            // C. Calculate Loss
+            G4double eIn = fEventAction->GetEnergyIn();
+            G4double eLoss = eIn - eKinOut;
+            
+            // Log this to your analysis manager
+            auto analysisManager = G4AnalysisManager::Instance();
+            analysisManager->FillH1(1, eLoss);
+        }
+    }
+
   // get volume of the current step
-  G4LogicalVolume* volume =
-    step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
+  //G4LogicalVolume* volume =
+  //  step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
 
   // check if we are in scoring volume
-  if (volume != fScoringVolume) return;
+  //if (volume != fScoringVolume) return;
 
   // collect energy deposited in this step
-  G4double edepStep = step->GetTotalEnergyDeposit();
-  fEventAction->AddEdep(edepStep);
+  //G4double edepStep = step->GetTotalEnergyDeposit();
+  //fEventAction->AddEdep(edepStep);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -36,6 +36,7 @@
 #include "G4ParticleTable.hh"
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
+#include "G4AnalysisManager.hh"
 
 namespace B1
 {
@@ -130,6 +131,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   //
   G4double initialEnergy = fParticleGun->GetParticleEnergy(); //!!!!Test
   G4cout << "Primary Muon Energy: " << initialEnergy / CLHEP::GeV << " GeV" << G4endl;
+  auto analysisManager = G4AnalysisManager::Instance();
+  analysisManager->FillH1(2, initialEnergy);
   //
   
   fParticleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
