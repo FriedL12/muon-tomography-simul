@@ -67,7 +67,7 @@ RunAction::RunAction()
   
   G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
   
-  analysisManager->CreateH1("Edep", "Energy deposit", 100, 0., 12 * GeV);
+  analysisManager->CreateH1("Edep", "Energy deposit", 100, 0., 2 * GeV);
   
   analysisManager->CreateNtuple("Muons", "Muons");
   analysisManager->CreateNtupleIColumn("iEvent");
