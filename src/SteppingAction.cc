@@ -74,7 +74,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
         }
 
         // B. Exit Point: Leaving the volume or stopping inside
-        if (postPoint->GetStepStatus() == fGeomBoundary || track->GetTrackStatus() == fStopAndKill) {
+        if (postPoint->GetStepStatus() == fGeomBoundary) { // || track->GetTrackStatus() == fStopAndKill) {
             G4double eKinOut = postPoint->GetKineticEnergy();
             fEventAction->SetEnergyOut(eKinOut);
             
