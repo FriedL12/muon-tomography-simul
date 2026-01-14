@@ -108,17 +108,36 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   G4double y0 = 5 *m;
   G4double z0 = 0 *m;
 
-  //Muon diection:
-  G4double phi = 2.0* acos(-1.) *G4UniformRand(); 
-  G4double alpha = 1 *G4UniformRand();
-  G4double costheta = pow(alpha,1/3.);
-  G4double sintheta = sqrt(1. -costheta *costheta);
+  G4ThreeVector targetPos = G4ThreeVector(0, -5 * m, 0);
+  G4double radius = 10.*m;
 
-  G4double xdir = cos(phi) * sintheta;
-  G4double ydir = sin(phi) * sintheta;
-  G4double zdir = costheta;
+  G4double thetaMax = 30.0 * deg;
+  G4double rTheta = G4UniformRand();
   
-  G4ThreeVector direction = G4ThreeVector(0, -1, 0);
+  //Muon diection:
+  //G4double phi = 2.0* acos(-1.) *G4UniformRand(); 
+  //G4double alpha = 1 *G4UniformRand();
+  //G4double costheta = pow(alpha,1/3.);
+  //G4double sintheta = sqrt(1. -costheta *costheta);
+
+  G4double cosThetaMax = std::cos(thetaMax);
+  G4double cosTheta = std::pow((1.0 - rTheta * (1.0 - std::pow(cosThetaMax, 3.0))), 1.0/3.0);
+  G4double sinTheta = std::sqrt(1.0 - cosTheta*cosTheta);
+
+  G4double phi = 2.0 * M_PI * G4UniformRand();
+
+  G4double xdir = sinTheta * std::cos(phi);
+  G4double zdir = sinTheta * std::sin(phi);
+  G4double ydir = -cosTheta;
+  
+  G4double relX = radius * sinTheta * std::cos(phi);
+  G4double relZ = radius * sinTheta * std::sin(phi);
+  G4double relY = radius * cosTheta;
+  
+  G4ThreeVector startPos = targetPos + G4ThreeVector(relX, relY, relZ);
+  
+  G4ThreeVector direction = (targetPos-startPos).unit();
+  //G4ThreeVector direction = G4ThreeVector(0, -1, 0);
 //
 //
   //New Energy distribution after shukla
@@ -135,7 +154,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   analysisManager->FillH1(2, initialEnergy);
   //
   
-  fParticleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
+  fParticleGun->SetParticlePosition(startPos);
   fParticleGun->SetParticleMomentumDirection(direction);
   fParticleGun->GeneratePrimaryVertex(event);
 }
