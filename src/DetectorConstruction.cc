@@ -53,7 +53,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   auto solidWorld =
     new G4Box("World",  // its name
-              5 *m, 5 *m, 5 *m);  // its size
+              5 *m, 10 *m, 5 *m);  // its size
 
   auto logicWorld = new G4LogicalVolume(solidWorld,  // its solid
                                         world_mat,  // its material
@@ -71,22 +71,32 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //Concrete wall
   
   G4Material *concreteWall_mat = nist->FindOrBuildMaterial("G4_CONCRETE");
-  G4ThreeVector pos1 = G4ThreeVector(0, 0, 0);
+  G4double wallThickness = 0.4 * m;
   
-  auto solidConcreteWall = new G4Box("ConcreteWall", 5 *m, 0.4*m, 5*m);
+  auto solidConcreteWall = new G4Box("ConcreteWall", 5 *m, wallThickness, 5*m);
 
   logicConcreteWall = new G4LogicalVolume(solidConcreteWall,  // its solid
                                          concreteWall_mat,  // its material
                                          "ConcreteWall");  // its name
 
-  auto physConcrete = new G4PVPlacement(nullptr,  // no rotation
-                    pos1,  // at position
-                    logicConcreteWall,  // its logical volume
-                    "ConcreteWall",  // its name
-                    logicWorld,  // its mother  volume
-                    false,  // no boolean operation
-                    0,  // copy number
-                    checkOverlaps);  // overlaps checking
+  G4int numberOfWalls = 4;
+  G4double distanceBetween = 2.9 * m;
+  G4ThreeVector pos1 = G4ThreeVector(0, 0, -6.5);
+  G4double yPos1 = -6.5 * m;
+  
+  for (G4int i = 0; i < numberOfWalls; i++) {
+    G4double yPos = (yPos1 + i * (distanceBetween + wallThickness));
+    G4ThreeVector pos = G4ThreeVector (0, yPos, 0);
+  
+    new G4PVPlacement(nullptr,  // no rotation
+                      pos,  // at position
+                      logicConcreteWall,  // its logical volume
+                      "ConcreteWall",  // its name
+                      logicWorld,  // its mother  volume
+                      false,  // no boolean operation
+                      i,  // copy number
+                      checkOverlaps);  // overlaps checking
+    }
   
   //G4VisAttributes *concreteVisAtt = new G4VisAttributes(G4Color(1.0, 0.0, 0.0, 0.5));
   //concreteVisAtt->SetForceSolid(true);

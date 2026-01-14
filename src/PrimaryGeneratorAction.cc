@@ -105,7 +105,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   //Position of gun:
   
   G4double x0 = 0 *m;
-  G4double y0 = 5 *m;
+  G4double y0 = 10 *m;
   G4double z0 = 0 *m;
 
   //Muon diection:
