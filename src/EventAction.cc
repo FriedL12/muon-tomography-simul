@@ -43,6 +43,8 @@ EventAction::EventAction(RunAction* runAction) : fRunAction(runAction) {}
 void EventAction::BeginOfEventAction(const G4Event*)
 {
   fEdep = 0.;
+  fEnergyIn = 0.;
+  fEnergyOut = 0.;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -56,11 +58,10 @@ void EventAction::EndOfEventAction(const G4Event*)
   if (fEnergyIn > 0.) {
       //G4cout << "---> End of Event" << G4endl;
       G4cout << "Muon Energy Loss: " << G4BestUnit(energyLoss, "Energy") << G4endl;
+      // Log this to your analysis manager
+      auto analysisManager = G4AnalysisManager::Instance();
+      analysisManager->FillH1(1, energyLoss);
   }
-  
-  // Reset variables for the next event!
-  fEnergyIn = 0.;
-  fEnergyOut = 0.;
   
   fRunAction->AddEdep(fEdep);
 }

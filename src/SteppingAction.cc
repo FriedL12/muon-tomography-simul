@@ -70,7 +70,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     if (volume->GetName() == "ConcreteWall") {
         
         // A. Entry Point: The first step into the volume
-        if (copyNo == 3 && prePoint->GetStepStatus() == fGeomBoundary) {
+        if (prePoint->GetStepStatus() == fGeomBoundary && fEventAction->GetEnergyIn() <= 0) {
             G4double eKinIn = prePoint->GetKineticEnergy();
             fEventAction->SetEnergyIn(eKinIn); 
         }
@@ -80,13 +80,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
             G4double eKinOut = postPoint->GetKineticEnergy();
             fEventAction->SetEnergyOut(eKinOut);
             
-            // C. Calculate Loss
-            G4double eIn = fEventAction->GetEnergyIn();
-            G4double eLoss = eIn - eKinOut;
-            
-            // Log this to your analysis manager
-            auto analysisManager = G4AnalysisManager::Instance();
-            analysisManager->FillH1(1, eLoss);
         }
     }
 

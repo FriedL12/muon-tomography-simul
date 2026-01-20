@@ -54,7 +54,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   G4String particleName;
   G4ParticleDefinition* particle = particleTable->FindParticle(particleName = "mu+");
   fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
+  //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
   //fParticleGun->SetParticleEnergy(2. * GeV);
 }
 
@@ -108,7 +108,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   G4double y0 = 10 *m;
   G4double z0 = 0 *m;
 
-  G4ThreeVector targetPos = G4ThreeVector(0, -8.65 * m, 0);
+  G4ThreeVector targetPos = G4ThreeVector(0, -11 * m, 0);
   G4double radius = 20.*m;
   
   G4double thetaMax = 30.0 * deg;
