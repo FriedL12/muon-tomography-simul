@@ -79,14 +79,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
         if ((copyNo == 0 && postPoint->GetStepStatus() == fGeomBoundary)) { // || track->GetTrackStatus() == fStopAndKill) {
             G4double eKinOut = postPoint->GetKineticEnergy();
             fEventAction->SetEnergyOut(eKinOut);
-            
-            // C. Calculate Loss
-            G4double eIn = fEventAction->GetEnergyIn();
-            G4double eLoss = eIn - eKinOut;
-            
-            // Log this to your analysis manager
-            auto analysisManager = G4AnalysisManager::Instance();
-            analysisManager->FillH1(1, eLoss);
         }
     }
 
