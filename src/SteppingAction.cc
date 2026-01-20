@@ -63,28 +63,22 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     G4StepPoint* prePoint  = step->GetPreStepPoint();
     G4StepPoint* postPoint = step->GetPostStepPoint();
     G4VPhysicalVolume* volume = prePoint->GetPhysicalVolume();
-
+    if (!volume) return;
+    
+    G4int copyNo = volume->GetCopyNo();
     // 2. Check if we are in the Concrete Wall
-    if (volume && volume->GetName() == "ConcreteWall") {
+    if (volume->GetName() == "ConcreteWall") {
         
         // A. Entry Point: The first step into the volume
-        if (prePoint->GetStepStatus() == fGeomBoundary) {
+        if (copyNo == 3 && prePoint->GetStepStatus() == fGeomBoundary) {
             G4double eKinIn = prePoint->GetKineticEnergy();
             fEventAction->SetEnergyIn(eKinIn); 
         }
 
         // B. Exit Point: Leaving the volume or stopping inside
-        if (postPoint->GetStepStatus() == fGeomBoundary) { // || track->GetTrackStatus() == fStopAndKill) {
+        if ((copyNo == 0 && postPoint->GetStepStatus() == fGeomBoundary)) { // || track->GetTrackStatus() == fStopAndKill) {
             G4double eKinOut = postPoint->GetKineticEnergy();
             fEventAction->SetEnergyOut(eKinOut);
-            
-            // C. Calculate Loss
-            G4double eIn = fEventAction->GetEnergyIn();
-            G4double eLoss = eIn - eKinOut;
-            
-            // Log this to your analysis manager
-            auto analysisManager = G4AnalysisManager::Instance();
-            analysisManager->FillH1(1, eLoss);
         }
     }
 
