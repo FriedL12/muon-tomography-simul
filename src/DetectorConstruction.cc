@@ -79,10 +79,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                                          concreteWall_mat,  // its material
                                          "ConcreteWall");  // its name
 
-  G4int numberOfWalls = 4;
+  G4int numberOfWalls = 5;
   G4double distanceBetween = 2.9 * m;
   G4ThreeVector pos1 = G4ThreeVector(0, 0, -6.5);
-  G4double yPos1 = -6.5 * m;
+  G4double yPos1 = -6.90 * m;
   
   for (G4int i = 0; i < numberOfWalls; i++) {
     G4double yPos = (yPos1 + i * (distanceBetween + wallThickness));
