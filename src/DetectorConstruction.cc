@@ -50,10 +50,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
   //Air 
   G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
-
+  
+  G4double depth = 8 * m;
+  
   auto solidWorld =
     new G4Box("World",  // its name
-              5 *m, 10 *m, 5 *m);  // its size
+              depth, 10 *m, depth);  // its size
 
   auto logicWorld = new G4LogicalVolume(solidWorld,  // its solid
                                         world_mat,  // its material
@@ -71,9 +73,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //Concrete wall
   
   G4Material *concreteWall_mat = nist->FindOrBuildMaterial("G4_CONCRETE");
-  G4double wallThickness = 0.4 * m;
+  G4double wallThickness = 0.5 * m;
   
-  auto solidConcreteWall = new G4Box("ConcreteWall", 5 *m, wallThickness, 5*m);
+  auto solidConcreteWall = new G4Box("ConcreteWall", depth, wallThickness, depth);
 
   logicConcreteWall = new G4LogicalVolume(solidConcreteWall,  // its solid
                                          concreteWall_mat,  // its material
@@ -81,7 +83,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   G4int numberOfWalls = 4;
   G4double distanceBetween = 2.9 * m;
-  G4ThreeVector pos1 = G4ThreeVector(0, 0, -6.5);
+  //G4ThreeVector pos1 = G4ThreeVector(0, 0, -6.5);
   G4double yPos1 = -6.5 * m;
   
   for (G4int i = 0; i < numberOfWalls; i++) {
