@@ -26,7 +26,7 @@ void SensitiveDetector::EndOfEvent(G4HCofThisEvent *)
 //G4cout << "Primary Muon Energy: " << initialEnergy / CLHEP::GeV << " GeV" << G4endl;
 
 G4bool SensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *)
-{
+{   
     G4int eventID = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
     
     G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
@@ -34,6 +34,7 @@ G4bool SensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *)
     G4StepPoint *preStepPoint = aStep->GetPreStepPoint();
     G4VPhysicalVolume* volume = preStepPoint->GetPhysicalVolume();
     G4String volName = volume->GetName();
+    //G4Track* track = aStep->GetTrack();
     
     if(volName == "ConcreteWall"){
       G4double fGlobalTime = preStepPoint->GetGlobalTime();
@@ -53,6 +54,9 @@ G4bool SensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *)
       G4double fEnergyDeposited = aStep->GetTotalEnergyDeposit();
       if (fEnergyDeposited > 0) fTotalEnergyDeposited += fEnergyDeposited;
     }
+    // && track->GetDefinition()->GetParticleName() = "mu+"
+    G4Track* track = aStep->GetTrack();
+    if (track->GetDefinition()->GetParticleName() !="mu+") return true;
     
     if (volName == "Detector") {
         if (preStepPoint->GetStepStatus() == fGeomBoundary) {
