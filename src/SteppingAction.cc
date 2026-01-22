@@ -49,49 +49,7 @@ SteppingAction::SteppingAction(EventAction* eventAction) : fEventAction(eventAct
 
 void SteppingAction::UserSteppingAction(const G4Step* step)
 {
-  //if (!fScoringVolume) {
-  //  const auto detConstruction = static_cast<const DetectorConstruction*>(
-  //    G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-  //  fScoringVolume = detConstruction->GetScoringVolume();
-  //}
-
-  G4Track* track = step->GetTrack();
-    
-    // 1. Filter for Muons only
-    if (track->GetDefinition()->GetParticleName() != "mu+") return;
-
-    G4StepPoint* prePoint  = step->GetPreStepPoint();
-    G4StepPoint* postPoint = step->GetPostStepPoint();
-    G4VPhysicalVolume* volume = prePoint->GetPhysicalVolume();
-    if (!volume) return;
-    
-    G4int copyNo = volume->GetCopyNo();
-    // 2. Check if we are in the Concrete Wall
-    if (volume->GetName() == "ConcreteWall") {
-        
-        // A. Entry Point: The first step into the volume
-        if (copyNo == 3 && prePoint->GetStepStatus() == fGeomBoundary) {
-            G4double eKinIn = prePoint->GetKineticEnergy();
-            fEventAction->SetEnergyIn(eKinIn); 
-        }
-
-        // B. Exit Point: Leaving the volume or stopping inside
-        if ((copyNo == 0 && postPoint->GetStepStatus() == fGeomBoundary)) { // || track->GetTrackStatus() == fStopAndKill) {
-            G4double eKinOut = postPoint->GetKineticEnergy();
-            fEventAction->SetEnergyOut(eKinOut);
-        }
-    }
-
-  // get volume of the current step
-  //G4LogicalVolume* volume =
-  //  step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
-
-  // check if we are in scoring volume
-  //if (volume != fScoringVolume) return;
-
-  // collect energy deposited in this step
-  //G4double edepStep = step->GetTotalEnergyDeposit();
-  //fEventAction->AddEdep(edepStep);
+  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

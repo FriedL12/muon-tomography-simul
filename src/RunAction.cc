@@ -67,26 +67,26 @@ RunAction::RunAction()
   
   G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
   
-  analysisManager->CreateH1("Edep", "Energy deposit", 100, 0., 2 * GeV);
-  analysisManager->CreateH1("Eloss", "Energy loss", 100, 0., 2 * GeV);
-  analysisManager->CreateH1("Einit", "Initial Energy", 100, 0., 12 * GeV);
+  //analysisManager->CreateH1("Edep", "Energy deposit", 100, 0., 2 * GeV);
+  //analysisManager->CreateH1("Eloss", "Energy loss", 100, 0., 2 * GeV);
+  //analysisManager->CreateH1("Einit", "Initial Energy", 100, 0., 12 * GeV);
   
-  analysisManager->CreateNtuple("Muons", "Muons");
-  analysisManager->CreateNtupleIColumn("iEvent");
-  analysisManager->CreateNtupleDColumn("fX");
-  analysisManager->CreateNtupleDColumn("fY");
-  analysisManager->CreateNtupleDColumn("fZ");
-  analysisManager->CreateNtupleDColumn("fGlobalTime");
+  //analysisManager->CreateNtuple("Muons", "Muons");
+  //analysisManager->CreateNtupleIColumn("iEvent");
+  //analysisManager->CreateNtupleDColumn("fX");
+  //analysisManager->CreateNtupleDColumn("fY");
+  //analysisManager->CreateNtupleDColumn("fZ");
+  //analysisManager->CreateNtupleDColumn("fGlobalTime");
   //analysisManager->CreateNtupleDColumn("fEnergy");
-  analysisManager->FinishNtuple(0);
+  //analysisManager->FinishNtuple(0);
   
   analysisManager->CreateNtuple("DetectorHits", "DetectorHits");
   analysisManager->CreateNtupleIColumn("EventID");    // Which event?
   analysisManager->CreateNtupleIColumn("DetectorID"); // 0=Bot, 1=Mid, 2=Top
-  analysisManager->CreateNtupleDColumn("HitX");       // X position of hit
-  analysisManager->CreateNtupleDColumn("HitZ");       // Z position of hit
-  analysisManager->CreateNtupleDColumn("Time");       // Time of hit
-  analysisManager->FinishNtuple(1);
+  //analysisManager->CreateNtupleDColumn("HitX");       // X position of hit
+  //analysisManager->CreateNtupleDColumn("HitZ");       // Z position of hit
+  //analysisManager->CreateNtupleDColumn("Time");       // Time of hit
+  analysisManager->FinishNtuple(0);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

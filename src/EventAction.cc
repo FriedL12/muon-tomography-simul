@@ -55,15 +55,14 @@ void EventAction::EndOfEventAction(const G4Event*)
   G4double energyLoss = fEnergyIn - fEnergyOut;
 
   // Only print if the muon actually entered the wall (energyIn > 0)
-  if (fEnergyIn > 0. && fEnergyOut > 0.) {
+  //if (fEnergyIn > 0. && fEnergyOut > 0.) {
       //G4cout << "---> End of Event" << G4endl;
-      G4cout << "Muon Energy Loss: " << G4BestUnit(energyLoss, "Energy") << G4endl;
+  //    G4cout << "Muon Energy Loss: " << G4BestUnit(energyLoss, "Energy") << G4endl;
       // Log this to your analysis manager
-      auto analysisManager = G4AnalysisManager::Instance();
-      analysisManager->FillH1(1, energyLoss);
-  }
-  
-  // Reset variables for the next event!
+  //    auto analysisManager = G4AnalysisManager::Instance();
+  //    analysisManager->FillH1(1, energyLoss);
+  //}
+
 
   
   fRunAction->AddEdep(fEdep);
