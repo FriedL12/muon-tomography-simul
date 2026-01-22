@@ -32,6 +32,7 @@
 #include "G4Box.hh"
 #include "G4Cons.hh"
 #include "G4LogicalVolume.hh"
+#include "G4LogicalVolumeStore.hh"
 #include "G4NistManager.hh"
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
@@ -285,7 +286,7 @@ void DetectorConstruction::ConstructSDandField()
   SensitiveDetector *sensDet = new SensitiveDetector("SensitiveDetector");
   logicConcreteWall->SetSensitiveDetector(sensDet);
   
-  //G4LogicalVolume* logicDetector = G4LogicalVolumeStore::GetInstance()->GetVolume("Detector");
+  G4LogicalVolume* logicDetector = G4LogicalVolumeStore::GetInstance()->GetVolume("Detector");
   if (logicDetector) logicDetector->SetSensitiveDetector(sensDet);
   
   G4SDManager::GetSDMpointer()->AddNewDetector(sensDet);

@@ -79,6 +79,14 @@ RunAction::RunAction()
   analysisManager->CreateNtupleDColumn("fGlobalTime");
   //analysisManager->CreateNtupleDColumn("fEnergy");
   analysisManager->FinishNtuple(0);
+  
+  analysisManager->CreateNtuple("DetectorHits", "DetectorHits");
+  analysisManager->CreateNtupleIColumn("EventID");    // Which event?
+  analysisManager->CreateNtupleIColumn("DetectorID"); // 0=Bot, 1=Mid, 2=Top
+  analysisManager->CreateNtupleDColumn("HitX");       // X position of hit
+  analysisManager->CreateNtupleDColumn("HitZ");       // Z position of hit
+  analysisManager->CreateNtupleDColumn("Time");       // Time of hit
+  analysisManager->FinishNtuple(1);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
