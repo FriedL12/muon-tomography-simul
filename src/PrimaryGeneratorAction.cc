@@ -37,6 +37,7 @@
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 #include "G4AnalysisManager.hh"
+#include "G4RunManager.hh"
 
 namespace B1
 {
@@ -54,7 +55,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   G4String particleName;
   G4ParticleDefinition* particle = particleTable->FindParticle(particleName = "mu+");
   fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
+  //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
   //fParticleGun->SetParticleEnergy(2. * GeV);
 }
 
@@ -103,8 +104,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 //
 
   //Position of gun:
-  G4double worldHalfX = 12 * m;
-  G4double worldHalfZ = 35 * m;
+  G4double worldHalfX = 10 * m;
+  G4double worldHalfZ = 10 * m;
   
   G4double x0 = (2.0 * G4UniformRand() - 1.0) * worldHalfX;
   G4double z0 = (2.0 * G4UniformRand() - 1.0) * worldHalfZ;
@@ -137,11 +138,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   fParticleGun->SetParticleEnergy(energy);
   
   //
-  G4double initialEnergy = fParticleGun->GetParticleEnergy(); //!!!!Test
-  G4cout << "Primary Muon Energy: " << initialEnergy / CLHEP::GeV << " GeV" << G4endl;
-  auto analysisManager = G4AnalysisManager::Instance();
-  analysisManager->FillH1(2, initialEnergy);
+  //G4double initialEnergy = fParticleGun->GetParticleEnergy(); //!!!!Test
+  //G4cout << "Primary Muon Energy: " << initialEnergy / CLHEP::GeV << " GeV" << G4endl;
+  //auto analysisManager = G4AnalysisManager::Instance();
+  //analysisManager->FillH1(0, initialEnergy);
   //
+  //G4int eventID = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+  //G4cout << eventID << G4endl;
   
   fParticleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
   fParticleGun->SetParticleMomentumDirection(direction);
