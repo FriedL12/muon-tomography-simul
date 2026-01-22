@@ -54,7 +54,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   auto solidWorld =
     new G4Box("World",  // its name
-              10 *m, 12 *m, 35 *m);  // its size
+              12 *m, 12 *m, 35 *m);  // its size
 
   auto logicWorld = new G4LogicalVolume(solidWorld,  // its solid
                                         world_mat,  // its material

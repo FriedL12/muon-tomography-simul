@@ -103,10 +103,17 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 //
 
   //Position of gun:
+  G4double worldHalfX = 12 * m;
+  G4double worldHalfZ = 35 * m;
   
-  G4double x0 = 0 *m;
-  G4double y0 = 10 *m;
-  G4double z0 = 0 *m;
+  G4double x0 = (2.0 * G4UniformRand() - 1.0) * worldHalfX;
+  G4double z0 = (2.0 * G4UniformRand() - 1.0) * worldHalfZ;
+  
+  G4double y0 = 8 * m;
+  
+  //G4double x0 = 0 *m;
+  //G4double y0 = 10 *m;
+  //G4double z0 = 0 *m;
 
   //Muon diection:
   G4double phi = 2.0* acos(-1.) *G4UniformRand(); 
@@ -118,7 +125,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   G4double ydir = sin(phi) * sintheta;
   G4double zdir = costheta;
   
-  G4ThreeVector direction = G4ThreeVector(0, -1, 0);
+  //G4ThreeVector direction = G4ThreeVector(0, -1, 0);
+  G4ThreeVector direction = G4ThreeVector(xdir, -zdir, ydir);
 //
 //
   //New Energy distribution after shukla
