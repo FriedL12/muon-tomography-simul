@@ -110,7 +110,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   G4double x0 = (2.0 * G4UniformRand() - 1.0) * worldHalfX;
   G4double z0 = (2.0 * G4UniformRand() - 1.0) * worldHalfZ;
   
-  G4double y0 = 8 * m;
+  G4double y0 = 6 * m;
   
   //G4double x0 = 0 *m;
   //G4double y0 = 10 *m;

@@ -72,7 +72,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //Concrete wall
   
   G4Material *concreteWall_mat = nist->FindOrBuildMaterial("G4_CONCRETE");
-  G4double wallThickness = 0.4 * m;
+  G4double wallThickness = 0.5 * 0.4 * m;
   
   auto solidConcreteWall = new G4Box("ConcreteWall", 7.5 *m, wallThickness, 31 *m);
 
@@ -83,10 +83,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4int numberOfWalls = 5;
   G4double distanceBetween = 2.9 * m;
   //G4ThreeVector pos1 = G4ThreeVector(0, 0, -6.5);
-  G4double yPos1 = -8.85 * m;
+  G4double yPos1 = (-9.10*m + wallThickness);
   
   for (G4int i = 0; i < numberOfWalls; i++) {
-    G4double yPos = (yPos1 + i * (distanceBetween + wallThickness));
+    G4double yPos = (yPos1 + i * (distanceBetween + 2*wallThickness));
     G4ThreeVector pos = G4ThreeVector (0, yPos, 0);
   
     new G4PVPlacement(nullptr,  // no rotation
@@ -102,13 +102,17 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4Material* matDetector = nist->FindOrBuildMaterial("G4_AIR");
   
   G4double detThickness = 0.05 * m;
-  G4double detLength = 0.4 * m;
+  G4double detLength = 0.2 * m;
   auto solidDetector = new G4Box("Detector", detLength, detThickness, detLength);
   auto logicDetector = new G4LogicalVolume(solidDetector, matDetector, "Detector");
   
   G4ThreeVector detPos0 = G4ThreeVector(0 * m, -11 * m, 0 * m);
-  G4ThreeVector detPos1 = G4ThreeVector(0 * m, -4.20 * m, 0 * m);
-  G4ThreeVector detPos2 = G4ThreeVector(0 * m, 2.60 * m, 0 * m);
+  G4ThreeVector detPos1 = G4ThreeVector(0 * m, (-11 * m + 5.80 * m + 4* wallThickness), 0 * m);
+  G4ThreeVector detPos2 = G4ThreeVector(0 * m, (-11 * m + 2*(5.80 * m + 4* wallThickness)), 0 * m);
+  
+  //G4ThreeVector detPos0 = G4ThreeVector(0 * m, 5.1 * m, 0 * m);
+  //G4ThreeVector detPos1 = G4ThreeVector(0 * m, 5.5 * m, 0 * m);
+  //G4ThreeVector detPos2 = G4ThreeVector(0 * m, 5.9 * m, 0 * m);
   
   new G4PVPlacement(nullptr,
                     detPos0,
