@@ -42,9 +42,9 @@ G4bool SensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *)
     
     G4double angle = momDirection.angle(verticalDown);
     
-    if (angle > 30.0 * deg) {
-      return true;
-    }
+    //if (angle > 26.6 * deg) {
+    //  return true;
+    //}
     
     G4VPhysicalVolume* volume = preStepPoint->GetPhysicalVolume();
     G4String volName = volume->GetName();
