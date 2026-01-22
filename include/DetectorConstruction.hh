@@ -60,6 +60,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
   private:
     G4LogicalVolume* logicConcreteWall;
+    G4LogicalVolume* logicDetector;
     virtual void ConstructSDandField();
     //virtual void ConstructSDandField();
 };

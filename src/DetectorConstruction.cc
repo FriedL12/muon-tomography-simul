@@ -96,8 +96,45 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                       false,  // no boolean operation
                       i,  // copy number
                       checkOverlaps);  // overlaps checking
-    }
+  }
+    
+  G4Material* matDetector = nist->FindOrBuildMaterial("G4_AIR");
   
+  G4double detThickness = 0.05 * m;
+  G4double detLength = 0.4 * m;
+  auto solidDetector = new G4Box("Detector", detLength, detThickness, detLength);
+  auto logicDetector = new G4LogicalVolume(solidDetector, matDetector, "Detector");
+  
+  G4ThreeVector detPos0 = G4ThreeVector(0 * m, -11 * m, 0 * m);
+  G4ThreeVector detPos1 = G4ThreeVector(0 * m, -4.20 * m, 0 * m);
+  G4ThreeVector detPos2 = G4ThreeVector(0 * m, 2.60 * m, 0 * m);
+  
+  new G4PVPlacement(nullptr,
+                    detPos0,
+                    logicDetector,
+                    "Detector",
+                    logicWorld,
+                    false,
+                    0,
+                    checkOverlaps);
+  
+  new G4PVPlacement(nullptr,
+                    detPos1,
+                    logicDetector,
+                    "Detector",
+                    logicWorld,
+                    false,
+                    1,
+                    checkOverlaps);
+  
+  new G4PVPlacement(nullptr,
+                    detPos2,
+                    logicDetector,
+                    "Detector",
+                    logicWorld,
+                    false,
+                    2,
+                    checkOverlaps);
   //G4VisAttributes *concreteVisAtt = new G4VisAttributes(G4Color(1.0, 0.0, 0.0, 0.5));
   //concreteVisAtt->SetForceSolid(true);
   //logicConcreteWall->SetVisAttributes(concreteVisAtt);
@@ -247,6 +284,10 @@ void DetectorConstruction::ConstructSDandField()
 {
   SensitiveDetector *sensDet = new SensitiveDetector("SensitiveDetector");
   logicConcreteWall->SetSensitiveDetector(sensDet);
+  
+  //G4LogicalVolume* logicDetector = G4LogicalVolumeStore::GetInstance()->GetVolume("Detector");
+  if (logicDetector) logicDetector->SetSensitiveDetector(sensDet);
+  
   G4SDManager::GetSDMpointer()->AddNewDetector(sensDet);
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
