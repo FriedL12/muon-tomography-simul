@@ -104,8 +104,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 //
 
   //Position of gun:
-  G4double worldHalfX = 10 * m;
-  G4double worldHalfZ = 10 * m;
+  G4double worldHalfX = 10.5 * m;
+  G4double worldHalfZ = 10.5 * m;
   
   G4double x0 = (2.0 * G4UniformRand() - 1.0) * worldHalfX;
   G4double z0 = (2.0 * G4UniformRand() - 1.0) * worldHalfZ;
