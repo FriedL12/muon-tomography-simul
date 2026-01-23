@@ -72,7 +72,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //Concrete wall
   
   G4Material *concreteWall_mat = nist->FindOrBuildMaterial("G4_CONCRETE");
-  G4double wallThickness = 0.5 * 0.5 * m;
+  G4double wallThickness = 0.5 * 0.4 * m;
   
   auto solidConcreteWall = new G4Box("ConcreteWall", 7.5 *m, wallThickness, 31 *m);
 
