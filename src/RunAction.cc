@@ -67,6 +67,8 @@ RunAction::RunAction()
   
   G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
   
+  analysisManager->SetNtupleMerging(true);
+  
   //analysisManager->CreateH1("Edep", "Energy deposit", 100, 0., 2 * GeV);
   //analysisManager->CreateH1("Eloss", "Energy loss", 100, 0., 2 * GeV);
   //analysisManager->CreateH1("Einit", "Initial Energy", 100, 0., 12 * GeV);
