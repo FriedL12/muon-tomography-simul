@@ -72,7 +72,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //Concrete wall
   
   G4Material *concreteWall_mat = nist->FindOrBuildMaterial("G4_CONCRETE");
-  G4double wallThickness = 0.5 * 0.4 * m;
+  G4Material* roof_mat = nist->FindOrBuildMaterial("G4_CONCRETE");
+  G4double wallThickness = 0.5 * 0.35 * m;
+  G4double roofThickness = 0.5 * 0.05 * m;
+  
+  auto solidRoof = new G4Box("Roof", 7.5 * m, roofThickness, 31 * m);
+  
+  auto logicRoof = new G4LogicalVolume(solidRoof, roof_mat, "Roof");
   
   auto solidConcreteWall = new G4Box("ConcreteWall", 7.5 *m, wallThickness, 31 *m);
 
@@ -80,7 +86,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                                          concreteWall_mat,  // its material
                                          "ConcreteWall");  // its name
 
-  G4int numberOfWalls = 5;
+  G4int numberOfWalls = 4;
   G4double distanceBetween = 2.9 * m;
   //G4ThreeVector pos1 = G4ThreeVector(0, 0, -6.5);
   G4double yPos1 = (-9.10*m + wallThickness);
@@ -98,7 +104,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                       i,  // copy number
                       checkOverlaps);  // overlaps checking
   }
-    
+  
+  G4double yPosRoof = (yPos1 + 4 * (distanceBetween + 2 * wallThickness));
+  
+  G4ThreeVector posRoof = G4ThreeVector(0, yPosRoof, 0);
+  
+  new G4PVPlacement(nullptr, posRoof, logicRoof, "Roof", logicWorld, false, 4, checkOverlaps);
+  
   G4Material* matDetector = nist->FindOrBuildMaterial("G4_AIR");
   
   G4double detThickness = 0.05 * m;
