@@ -31,7 +31,7 @@ G4bool SensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *)
     if (track->GetDefinition()->GetParticleName() != "mu+") return true;
     
     G4int eventID = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
-    G4cout << eventID << G4endl;
+    //G4cout << eventID << G4endl;
     
     G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
     

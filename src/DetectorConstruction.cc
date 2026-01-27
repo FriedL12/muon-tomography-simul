@@ -73,8 +73,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
   G4Material *concreteWall_mat = nist->FindOrBuildMaterial("G4_CONCRETE");
   G4Material* roof_mat = nist->FindOrBuildMaterial("G4_CONCRETE");
-  G4double wallThickness = 0.5 * 0.35 * m;
-  G4double roofThickness = 0.5 * 0.05 * m;
+  G4double wallThickness = 0.5 * 0.42 * m;
+  G4double roofThickness = 0.5 * 0.02 * m;
   
   auto solidRoof = new G4Box("Roof", 7.5 * m, roofThickness, 31 * m);
   
